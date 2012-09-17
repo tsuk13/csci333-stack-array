@@ -1,5 +1,6 @@
 #include "Stack.h"
 #include <iostream>
+#include <cassert>
 
 Stack::Stack(int initialSize) {
   theStack = new int[initialSize];
@@ -17,7 +18,7 @@ void Stack::push(int value) {
   // copy all elements to new stack
   // delete old stack
   // point old stack pointer to new stack
-  if(top + 1 >= currentSize){
+  if(top >= currentSize){
     int* tmpStack = new int[currentSize * 2];
     for(int i = 0; i < currentSize; i++){
       tmpStack[i] = theStack[i];
@@ -26,6 +27,7 @@ void Stack::push(int value) {
     delete[] theStack;
     theStack = tmpStack;
   }
+  assert(top < currentSize);
   theStack[top] = value;
   top++;
 }
