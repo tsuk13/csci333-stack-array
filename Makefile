@@ -1,17 +1,17 @@
-BUILD = build
-TEST = test
-LIB = lib
-SRC = src
+BUILD = ./build
+TEST = ./test
+LIB = ./lib
+SRC = ./src
 
 CPP = g++
 CPPFLAGS = -Wall -Wextra
 
-all: src test
+all: $(BUILD)/main $(TEST)/stack_test
 
-src: $(SRC)/Stack.o
+$(BUILD)/main: $(SRC)/Stack.cpp $(SRC)/Stack.o
 	cd $(SRC); $(MAKE)
 
-test: $(SRC)/Stack.o
+$(TEST)/stack_test: $(TEST)/Stack.cpp $(SRC)/Stack.o
 	cd $(TEST); $(MAKE)
 
 clean:

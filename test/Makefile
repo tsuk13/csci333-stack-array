@@ -2,22 +2,26 @@ BUILD = ../build
 TEST = ../test
 LIB = ../lib
 SRC = ../src
-GOOGLE_TEST = $(LIB)/gtest-1.6.0
-GTEST_MAINA = $(GOOGLE_TEST)/make/gtest_main.a
+GTEST = $(LIB)/gtest-1.6.0
+GTEST_MAINA = $(GTEST)/make/gtest_main.a
 
-GTEST_INCLUDES = -I$(GOOGLE_TEST) -I$(GOOGLE_TEST)/include
+GTEST_INCLUDES = -I$(GTEST) -I$(GTEST)/include
 
 CPP = g++
 CPPFLAGS = -Wall -Wextra
 
-stack: Stack.cpp $(SRC)/Stack.o $(GTEST_MAINA)
-	$(CPP) $(CFLAGS) $(GTEST_INCLUDES) -pthread -o stack_test $^
+#stack: Stack.cpp $(SRC)/Stack.o $(GTEST_MAINA)
+#	$(CPP) $(CFLAGS) $(GTEST_INCLUDES) -pthread -o stack_test $^
 
-$(GTEST_MAINA):
-	cd $(GOOGLE_TEST)/make; make
+stack_test: Stack.cpp $(SRC)/Stack.o $(GTEST_MAINA)
+	$(CPP) $(CFLAGS) $(GTEST_INCLUDES) -pthread -o stack_test Stack.cpp $(SRC)/Stack.o $(GTEST_MAINA)
+
+$(GTEST_MAINA): $(GTEST)/src/*.cc $(GTEST)/src/*.h
+	cd $(GTEST)/make; make
 
 clean:
 	rm -f stack_test
-	cd $(GOOGLE_TEST)/make; $(MAKE) clean
+	rm -f $(GTEST_MAINA)
+	cd $(GTEST)/make; $(MAKE) clean
 
 
